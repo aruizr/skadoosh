@@ -1,9 +1,7 @@
 server:
-  port: 7000
+  port: 0
 
 spring:
-  datasource:
-    initialization-mode: always
   jpa:
     database: h2
   cloud:

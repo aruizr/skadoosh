@@ -1,6 +1,6 @@
-package cat.tcm.skadoosh.userservice.application.service;
+package cat.tcm.skadoosh.userservice.adapter.web;
 
-import cat.tcm.skadoosh.userservice.application.port.in.IGetUserPostsCase;
+import cat.tcm.skadoosh.userservice.application.port.out.GetPostsByUserIdPort;
 import cat.tcm.skadoosh.userservice.domain.Post;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
@@ -15,21 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GetUserPostsCase implements IGetUserPostsCase {
+public class RestApiController implements GetPostsByUserIdPort {
 
     @Value("${app.post-service.host}")
-    private String postServiceHost;
+    String postServiceHost;
 
-    private RestTemplate restTemplate;
-    private CircuitBreakerFactory circuitBreakerFactory;
+    RestTemplate restTemplate;
+    CircuitBreakerFactory circuitBreakerFactory;
 
-    public GetUserPostsCase(RestTemplate restTemplate, CircuitBreakerFactory circuitBreakerFactory) {
+    public RestApiController(RestTemplate restTemplate, CircuitBreakerFactory circuitBreakerFactory) {
         this.restTemplate = restTemplate;
         this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
+
     @Override
-    public List<Post> getUserPosts(long id) {
+    public List<Post> getPostsByUserId(long id) {
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("post-service");
         String url = "http://" + postServiceHost + "/users/{id}/posts";
 
