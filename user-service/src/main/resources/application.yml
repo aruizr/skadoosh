@@ -1,0 +1,44 @@
+server:
+  port: 7000
+
+spring:
+  datasource:
+    initialization-mode: always
+  jpa:
+    database: h2
+  cloud:
+    stream:
+      bindings:
+        senderPostChannel:
+          destination: postChannel
+  rabbitmq:
+    listener:
+      simple:
+        concurrency: 1
+  application:
+    name: user-service
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      product:
+        registerHealthIndicator: true
+        ringBufferSizeInClosedState: 10
+        failureRateThreshold: 50
+        waitInterval: 10000
+        ringBufferSizeInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        ignoreExceptions:
+          - org.springframework.web.client.HttpClientErrorException
+
+  retry:
+    instances:
+      product:
+        maxRetryAttempts: 3
+        waitDuration: 1000
+        retryExceptions:
+          - org.springframework.web.client.HttpClientErrorException
+
+app:
+  post-service:
+    host: post-service

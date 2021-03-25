@@ -1,0 +1,2 @@
+INSERT INTO `post` (user_id, title, content) VALUES (1, 'Patriarcado abajo!', 'Las mujeres solteres no necesiten pene.');
+INSERT INTO `post` (user_id, title, content) VALUES (2, 'Teta', 'EN la pagina 869 del worbu');

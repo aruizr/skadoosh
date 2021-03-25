@@ -1,0 +1,13 @@
+server:
+  port: 7001
+
+spring:
+  jpa:
+    database: h2
+  cloud:
+    stream:
+      bindings:
+        receiverPostChannel:
+          destination: postChannel
+  application:
+    name: post-service
